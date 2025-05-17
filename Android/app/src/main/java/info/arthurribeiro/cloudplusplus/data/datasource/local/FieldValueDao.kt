@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface FieldValueDao {
 
     @Upsert
-    fun upsert(vararg field: FieldValue)
+    fun upsert(field: FieldValue)
 
     @Query("SELECT * FROM fields WHERE sectionId = :section")
     fun getAllFrom(section: String): Flow<List<FieldValue>>

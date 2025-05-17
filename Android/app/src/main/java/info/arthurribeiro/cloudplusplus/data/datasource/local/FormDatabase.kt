@@ -7,6 +7,8 @@ import info.arthurribeiro.cloudplusplus.data.model.entity.Form
 import info.arthurribeiro.cloudplusplus.data.model.entity.FormStructure
 
 @Database(entities = [FormStructure::class, Form::class, FieldValue::class], version = 1)
-abstract class AppDatabase : RoomDatabase() {
-    abstract fun userDao(): UserDao
+abstract class FormDatabase : RoomDatabase() {
+    abstract fun formStructureDao(): FormStructureDao
+    abstract fun formDao(): FormDao
+    abstract fun fieldValueDao(): FieldValueDao
 }

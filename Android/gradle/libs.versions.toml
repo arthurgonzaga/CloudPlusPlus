@@ -7,15 +7,16 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.9.0"
 activityCompose = "1.10.1"
-composeBom = "2024.04.01"
-room = "2.6.0"
+composeBom = "2025.05.00"
+room = "2.7.1"
+koin_android_version = "3.4.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version = "2.1.20-2.0.0" }
+ksp = { id = "com.google.devtools.ksp", version = "2.0.0-1.0.22" }
 
 
 [libraries]
@@ -41,3 +42,12 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 
 # Kotlin Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.8.1" }
+
+# Koin
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin_android_version" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin_android_version" }
+koin-androidx-navigation = { group = "io.insert-koin", name = "koin-androidx-navigation", version.ref = "koin_android_version" }
+
+# Navigation
+androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version = "2.9.0" }
+

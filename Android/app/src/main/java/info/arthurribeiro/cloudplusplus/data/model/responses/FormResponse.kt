@@ -19,7 +19,7 @@ sealed class Field {
         @SerialName("uuid")
         val id: String,
         val label: String,
-        val required: Boolean,
+        val required: Boolean = false,
     ) : Field()
 
 
@@ -29,7 +29,7 @@ sealed class Field {
         val id: String,
         @SerialName("label")
         val htmlDescription: String,
-        val required: Boolean,
+        val required: Boolean = false,
     ) : Field()
 
 
@@ -38,7 +38,7 @@ sealed class Field {
         @SerialName("uuid")
         val id: String,
         val label: String,
-        val required: Boolean,
+        val required: Boolean = false,
     ) : Field()
 
     @Serializable
@@ -46,7 +46,7 @@ sealed class Field {
         @SerialName("uuid")
         val id: String,
         val label: String,
-        val required: Boolean,
+        val required: Boolean = false,
         val options: List<Option>
     ) : Field() {
 
