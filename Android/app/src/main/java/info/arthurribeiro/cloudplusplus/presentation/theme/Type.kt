@@ -1,4 +1,4 @@
-package info.arthurribeiro.cloudplusplus.ui.theme
+package info.arthurribeiro.cloudplusplus.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

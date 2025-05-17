@@ -1,4 +1,4 @@
-package info.arthurribeiro.cloudplusplus.ui.theme
+package info.arthurribeiro.cloudplusplus.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
