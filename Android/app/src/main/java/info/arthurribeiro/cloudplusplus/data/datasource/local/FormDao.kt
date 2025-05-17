@@ -13,5 +13,5 @@ interface FormDao {
     suspend fun upsert(vararg form: Form)
 
     @Query("SELECT * FROM forms WHERE structureId = :structureId")
-    fun getAll(structureId: Long): Flow<List<Form>>
+    fun getAll(structureId: String): Flow<List<Form>>
 }

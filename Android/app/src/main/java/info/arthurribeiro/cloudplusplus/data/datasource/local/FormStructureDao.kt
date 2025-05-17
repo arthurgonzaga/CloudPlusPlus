@@ -11,6 +11,6 @@ interface FormStructureDao {
     @Insert
     suspend fun addAll(vararg structure: FormStructure)
 
-    @Query("SELECT * FROM structures")
+    @Query("SELECT * FROM form_structures")
     suspend fun getAll(): List<FormStructure>
 }

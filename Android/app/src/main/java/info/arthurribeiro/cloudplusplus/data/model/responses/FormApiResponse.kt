@@ -4,13 +4,6 @@ import info.arthurribeiro.cloudplusplus.data.model.responses.typeadapter.FieldSe
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class FormResponse(
-    val title: String,
-    val fields: List<Field>,
-    val sections: List<Section>
-)
-
 @Serializable(with = FieldSerializer::class)
 sealed class Field {
 

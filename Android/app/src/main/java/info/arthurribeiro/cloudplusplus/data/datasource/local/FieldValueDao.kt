@@ -12,6 +12,6 @@ interface FieldValueDao {
     @Upsert
     fun upsert(field: FieldValue)
 
-    @Query("SELECT * FROM fields WHERE formId = :formId AND sectionId = :section")
+    @Query("SELECT * FROM form_field_values WHERE formId = :formId AND sectionId = :section")
     fun getAllFrom(formId: Long, section: String): Flow<List<FieldValue>>
 }

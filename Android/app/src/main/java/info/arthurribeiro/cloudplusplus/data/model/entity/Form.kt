@@ -9,5 +9,5 @@ import java.util.UUID
 @Serializable
 data class Form(
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    val structureId: Long
+    val structureId: String
 )

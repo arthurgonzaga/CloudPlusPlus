@@ -4,12 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 
-@Entity(tableName = "form_field_values")
+@Entity(tableName = "form_sections")
 @Serializable
-data class FieldValue(
+data class FormSection(
     @PrimaryKey val id: String,
-    val formId: Long,
-    val sectionId: String,
-    val type: String,
-    val value: String,
+    val structureId: String,
+    val index: Int,
+    val fields: String,
 )

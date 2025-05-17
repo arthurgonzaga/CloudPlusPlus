@@ -24,10 +24,9 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun FormsScreen(
-    structure: FormStructure,
-    navigate: (FormDetailDestination) -> Unit,
+    navigate: (formId: String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: FormsViewModel = koinViewModel { parametersOf(structure) }
+    viewModel: FormsViewModel
 ) {
 
     val uiState by viewModel.uiState
@@ -48,12 +47,11 @@ fun FormsScreen(
             LazyColumn(
                 modifier = modifier.padding(paddingValues)
             ) {
-
                 items(uiState.forms) { form ->
                     Button(
                         modifier = Modifier.padding(horizontal = 32.dp),
                         onClick = {
-                            navigate(FormDetailDestination(formId = form.id, structure))
+                            navigate(form.id)
                         }
                     ) {
                         Text(

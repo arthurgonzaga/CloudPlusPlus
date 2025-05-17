@@ -1,7 +1,6 @@
 package info.arthurribeiro.cloudplusplus.data.datasource.remote
 
 import android.content.Context
-import info.arthurribeiro.cloudplusplus.data.model.responses.FormResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
@@ -11,7 +10,7 @@ class MockedFormService(
     private val json: Json,
 ) : FormService {
 
-    override suspend fun getFormStructures(): List<FormResponse> {
+    override suspend fun getStructures(): List<String> {
         return withContext(Dispatchers.IO) {
             listOf(
                 get("all-fields.json"),
@@ -21,10 +20,9 @@ class MockedFormService(
     }
 
 
-    private fun get(name: String): FormResponse {
+    private fun get(name: String): String {
         val inputStream = context.assets.open(name)
-        val jsonString = inputStream.bufferedReader().use { it.readText() }
-        return json.decodeFromString(jsonString)
+        return inputStream.bufferedReader().use { it.readText() }
     }
 
 }

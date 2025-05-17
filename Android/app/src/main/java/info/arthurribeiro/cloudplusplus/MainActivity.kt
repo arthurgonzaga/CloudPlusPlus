@@ -21,9 +21,12 @@ import info.arthurribeiro.cloudplusplus.presentation.screens.FormDetailDestinati
 import info.arthurribeiro.cloudplusplus.presentation.screens.FormsDestination
 import info.arthurribeiro.cloudplusplus.presentation.screens.JsonNavType
 import info.arthurribeiro.cloudplusplus.presentation.screens.StructuresDestination
+import info.arthurribeiro.cloudplusplus.presentation.screens.detail.FormDetailScreen
 import info.arthurribeiro.cloudplusplus.presentation.screens.forms.FormsScreen
 import info.arthurribeiro.cloudplusplus.presentation.screens.structures.StructuresScreen
 import info.arthurribeiro.cloudplusplus.presentation.theme.CloudPlusPlusTheme
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
@@ -59,9 +62,9 @@ class MainActivity : ComponentActivity() {
                     val args = it.toRoute<FormsDestination>()
 
                     FormsScreen(
-                        structure = args.structure,
-                        navigate = { form ->
-                            navController.navigate(form)
+                        viewModel = koinViewModel { parametersOf(args.structure) },
+                        navigate = { formId ->
+                            navController.navigate(FormDetailDestination(formId, args.structure))
                         }
                     )
                 }
@@ -73,19 +76,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val args = it.toRoute<FormDetailDestination>()
 
-                    Column {
-                        Text(
-                            text = "Form Detail",
-                        )
-
-                        Text(
-                            text = "formId = ${args.formId}",
-                        )
-
-                        Text(
-                            text = "structureId = ${args.structure.id}",
-                        )
-                    }
+                    FormDetailScreen(
+                        viewModel = koinViewModel { parametersOf(args.formId, args.structure) }
+                    )
                 }
             }
         }
