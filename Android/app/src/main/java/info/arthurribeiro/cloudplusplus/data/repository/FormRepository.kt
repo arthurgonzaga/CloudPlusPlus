@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 interface FormRepository {
     suspend fun getStructures(): List<FormStructure>
 
-    fun getForms(): Flow<List<Form>>
-    suspend fun createForm(structure: FormStructure)
+    fun getForms(structureId: Long): Flow<List<Form>>
+    suspend fun createForm(structureId: Long)
 
-    fun getFields(sectionId: String): Flow<List<FieldValue>>
-    suspend fun saveField(sectionId: String, field: FieldValue)
+    fun getFields(formId: Long, sectionId: String): Flow<List<FieldValue>>
+    suspend fun saveField(formId: Long, sectionId: String, field: FieldValue)
 
 }

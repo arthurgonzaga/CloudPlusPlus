@@ -33,17 +33,18 @@ class FormRepositoryImpl(
         return structures
     }
 
-    override fun getForms(): Flow<List<Form>> = localDataSource.formDao().getAll()
+    override fun getForms(structureId: Long): Flow<List<Form>> =
+        localDataSource.formDao().getAll(structureId)
 
-    override suspend fun createForm(structure: FormStructure) {
-        return localDataSource.formDao().upsert(Form(structureId = structure.id))
+    override suspend fun createForm(structureId: Long) {
+        return localDataSource.formDao().upsert(Form(structureId = structureId))
     }
 
-    override fun getFields(sectionId: String): Flow<List<FieldValue>> {
-        return localDataSource.fieldValueDao().getAllFrom(sectionId)
+    override fun getFields(formId: Long, sectionId: String): Flow<List<FieldValue>> {
+        return localDataSource.fieldValueDao().getAllFrom(formId, sectionId)
     }
 
-    override suspend fun saveField(sectionId: String, field: FieldValue) {
+    override suspend fun saveField(formId: Long, sectionId: String, field: FieldValue) {
         localDataSource.fieldValueDao().upsert(field)
     }
 }

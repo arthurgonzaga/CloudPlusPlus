@@ -17,7 +17,9 @@ val dataModule = module {
             context = androidApplication(),
             FormDatabase::class.java,
             name = "form-database"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(true)
+            .build()
     }
 
     single<Json> {

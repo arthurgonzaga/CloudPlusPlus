@@ -4,16 +4,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import info.arthurribeiro.cloudplusplus.data.model.entity.Form
+import info.arthurribeiro.cloudplusplus.data.model.entity.FormStructure
 import info.arthurribeiro.cloudplusplus.presentation.screens.FormDetailDestination
 import info.arthurribeiro.cloudplusplus.presentation.screens.FormsDestination
+import info.arthurribeiro.cloudplusplus.presentation.screens.JsonNavType
 import info.arthurribeiro.cloudplusplus.presentation.screens.StructuresDestination
+import info.arthurribeiro.cloudplusplus.presentation.screens.forms.FormsScreen
 import info.arthurribeiro.cloudplusplus.presentation.screens.structures.StructuresScreen
 import info.arthurribeiro.cloudplusplus.presentation.theme.CloudPlusPlusTheme
+import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,16 +44,49 @@ class MainActivity : ComponentActivity() {
                 startDestination = StructuresDestination
             ) {
                 composable<StructuresDestination> {
-                    StructuresScreen()
+                    StructuresScreen(
+                        navigate = { formStructure ->
+                            navController.navigate(formStructure)
+                        }
+                    )
                 }
-//
-//                composable<FormsDestination> {
-//
-//                }
-//
-//                composable<FormDetailDestination> {
-//
-//                }
+
+                composable<FormsDestination>(
+                    typeMap = mapOf(
+                        typeOf<FormStructure>() to JsonNavType(FormStructure.serializer())
+                    )
+                ) {
+                    val args = it.toRoute<FormsDestination>()
+
+                    FormsScreen(
+                        structure = args.structure,
+                        navigate = { form ->
+                            navController.navigate(form)
+                        }
+                    )
+                }
+
+                composable<FormDetailDestination>(
+                    typeMap = mapOf(
+                        typeOf<FormStructure>() to JsonNavType(FormStructure.serializer())
+                    )
+                ) {
+                    val args = it.toRoute<FormDetailDestination>()
+
+                    Column {
+                        Text(
+                            text = "Form Detail",
+                        )
+
+                        Text(
+                            text = "formId = ${args.formId}",
+                        )
+
+                        Text(
+                            text = "structureId = ${args.structure.id}",
+                        )
+                    }
+                }
             }
         }
     }
