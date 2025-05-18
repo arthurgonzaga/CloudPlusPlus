@@ -47,11 +47,12 @@ object Mapper {
 
             val fieldsJson = Json.encodeToString(sublist)
 
-            id to fieldsJson
-        }.mapIndexed { index, (sectionId, fields) ->
+            Triple(id, section.title, fieldsJson)
+        }.mapIndexed { index, (title, sectionId, fields) ->
             FormSection(
                 id = sectionId,
                 index = index,
+                title = title,
                 structureId = structureId,
                 fields = fields
             )

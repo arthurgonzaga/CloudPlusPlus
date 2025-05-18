@@ -47,7 +47,10 @@ fun FormsScreen(
             LazyColumn(
                 modifier = modifier.padding(paddingValues)
             ) {
-                items(uiState.forms) { form ->
+                items(
+                    items = uiState.forms,
+                    key = { it.id }
+                ) { form ->
                     Button(
                         modifier = Modifier.padding(horizontal = 32.dp),
                         onClick = {

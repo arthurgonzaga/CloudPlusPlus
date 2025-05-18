@@ -12,9 +12,10 @@ interface FormRepository {
     fun getForms(structureId: String): Flow<List<Form>>
     suspend fun createForm(structureId: String)
 
+    suspend fun countSections(structureId: String): Int
     suspend fun getSection(structureId: String, index: Int): FormSection
 
-    fun getFieldValues(formId: Long, sectionId: String): Flow<List<FieldValue>>
+    suspend fun getFieldValues(formId: String, sectionId: String): List<FieldValue>
     suspend fun saveFieldValue(field: FieldValue)
 
 }

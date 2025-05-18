@@ -6,40 +6,43 @@ import kotlinx.serialization.Serializable
 
 @Serializable(with = FieldSerializer::class)
 sealed class Field {
+    @SerialName("uuid")
+    abstract val id: String
+    abstract val label: String
+    open val required: Boolean = false
 
     @Serializable
     data class TextField(
         @SerialName("uuid")
-        val id: String,
-        val label: String,
-        val required: Boolean = false,
+        override val id: String,
+        override val label: String,
+        override val required: Boolean = false,
     ) : Field()
 
 
     @Serializable
     data class Description(
         @SerialName("uuid")
-        val id: String,
-        @SerialName("label")
-        val htmlDescription: String,
-        val required: Boolean = false,
+        override val id: String,
+        override val label: String,
+        override val required: Boolean = false,
     ) : Field()
 
 
     @Serializable
     data class Number(
         @SerialName("uuid")
-        val id: String,
-        val label: String,
-        val required: Boolean = false,
+        override val id: String,
+        override val label: String,
+        override val required: Boolean = false,
     ) : Field()
 
     @Serializable
     data class Dropdown(
         @SerialName("uuid")
-        val id: String,
-        val label: String,
-        val required: Boolean = false,
+        override val id: String,
+        override val label: String,
+        override val required: Boolean = false,
         val options: List<Option>
     ) : Field() {
 
@@ -49,7 +52,6 @@ sealed class Field {
             val value: String
         )
     }
-
 }
 
 @Serializable

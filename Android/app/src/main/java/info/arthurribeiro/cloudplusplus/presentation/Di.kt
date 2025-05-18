@@ -12,6 +12,7 @@ val presentationModule = module {
     viewModel { parameters ->
         FormDetailViewModel(
             repository = get(),
+            json = get(),
             formId = parameters.get(),
             structure = parameters.get()
         )

@@ -50,11 +50,15 @@ class FormRepositoryImpl(
         return localDataSource.formDao().upsert(Form(structureId = structureId))
     }
 
+    override suspend fun countSections(structureId: String): Int {
+        return localDataSource.sectionDao().countSections(structureId)
+    }
+
     override suspend fun getSection(structureId: String, index: Int): FormSection {
         return localDataSource.sectionDao().getFormSection(structureId, index)
     }
 
-    override fun getFieldValues(formId: Long, sectionId: String): Flow<List<FieldValue>> {
+    override suspend fun getFieldValues(formId: String, sectionId: String): List<FieldValue> {
         return localDataSource.fieldValueDao().getAllFrom(formId, sectionId)
     }
 

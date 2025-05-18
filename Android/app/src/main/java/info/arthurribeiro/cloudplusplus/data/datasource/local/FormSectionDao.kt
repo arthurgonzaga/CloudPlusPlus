@@ -17,4 +17,7 @@ interface FormSectionDao {
 
     @Query("SELECT * FROM form_sections WHERE structureId = :structureId AND `index` = :index")
     suspend fun getFormSection(structureId: String, index: Int): FormSection
+
+    @Query("SELECT COUNT(*) FROM form_sections WHERE structureId = :structureId")
+    suspend fun countSections(structureId: String): Int
 }

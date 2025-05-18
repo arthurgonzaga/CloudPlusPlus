@@ -15,7 +15,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import info.arthurribeiro.cloudplusplus.data.model.entity.Form
 import info.arthurribeiro.cloudplusplus.data.model.entity.FormStructure
 import info.arthurribeiro.cloudplusplus.presentation.screens.FormDetailDestination
 import info.arthurribeiro.cloudplusplus.presentation.screens.FormsDestination
@@ -77,7 +76,10 @@ class MainActivity : ComponentActivity() {
                     val args = it.toRoute<FormDetailDestination>()
 
                     FormDetailScreen(
-                        viewModel = koinViewModel { parametersOf(args.formId, args.structure) }
+                        viewModel = koinViewModel { parametersOf(args.formId, args.structure) },
+                        onClose = {
+                            navController.popBackStack()
+                        }
                     )
                 }
             }

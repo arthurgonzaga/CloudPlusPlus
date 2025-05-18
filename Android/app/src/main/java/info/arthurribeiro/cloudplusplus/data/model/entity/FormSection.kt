@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 data class FormSection(
     @PrimaryKey val id: String,
     val structureId: String,
+    val title: String,
     val index: Int,
     val fields: String,
 )

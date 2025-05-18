@@ -8,8 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class FieldValue(
     @PrimaryKey val id: String,
-    val formId: Long,
+    val formId: String,
     val sectionId: String,
-    val type: String,
     val value: String,
 )
