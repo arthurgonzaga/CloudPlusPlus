@@ -16,8 +16,9 @@ class StructuresViewModel(
 
     fun getStructures() = viewModelScope.launch {
         _state.value = _state.value.copy(isLoading = true)
+        val list = repository.getStructures()
         _state.value = _state.value.copy(
-            list = repository.getStructures(),
+            list = list,
             isLoading = false
         )
     }

@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -127,18 +128,33 @@ fun StructuresScreen(
 
         Spacer(Modifier.height(8.dp))
 
-        LazyColumn(
-            modifier = Modifier.padding(horizontal = 32.dp),
-        ) {
-            items(uiState.list) { structure ->
-                Card(
-                    structure = structure,
-                    onClick = {
-                        navigate(FormsDestination(structure = structure))
-                    }
+        if (uiState.isLoading) {
+            Box(
+                Modifier.fillMaxWidth()
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(40.dp),
+                    color = DarkGreen,
+                    strokeWidth = 2.dp
                 )
             }
+        } else {
+            LazyColumn(
+                modifier = Modifier.padding(horizontal = 32.dp),
+            ) {
+                items(uiState.list) { structure ->
+                    Card(
+                        structure = structure,
+                        onClick = {
+                            navigate(FormsDestination(structure = structure))
+                        }
+                    )
+                }
+            }
         }
+
     }
 }
 
