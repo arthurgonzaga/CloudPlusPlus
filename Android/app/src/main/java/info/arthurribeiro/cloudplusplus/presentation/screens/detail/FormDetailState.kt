@@ -1,5 +1,6 @@
 package info.arthurribeiro.cloudplusplus.presentation.screens.detail
 
+import androidx.compose.ui.graphics.Color
 import info.arthurribeiro.cloudplusplus.data.model.responses.Field
 
 data class FormDetailState(
@@ -8,6 +9,8 @@ data class FormDetailState(
     val currentSectionIndex: Int,
     val totalSections: Int = 0,
     val currentSectionTitle: String = "",
+    val lightColor: Color,
+    val darkColor: Color,
     val items: List<Item> = emptyList(),
 ) {
     data class Item(

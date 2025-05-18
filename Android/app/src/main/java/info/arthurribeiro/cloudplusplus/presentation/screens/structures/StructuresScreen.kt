@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import info.arthurribeiro.cloudplusplus.R
+import info.arthurribeiro.cloudplusplus.data.model.entity.FormStructure
 import info.arthurribeiro.cloudplusplus.presentation.screens.FormsDestination
 import info.arthurribeiro.cloudplusplus.presentation.theme.DarkGreen
 import info.arthurribeiro.cloudplusplus.presentation.theme.DarkRed
@@ -110,8 +111,8 @@ fun StructuresScreen(
                     modifier = Modifier
                         .size(100.dp, 40.dp)
                         .padding(start = 8.dp)
-                        .background(color = LightGray)
                         .clip(RoundedCornerShape(10.dp))
+                        .background(color = LightGray)
                 )
             }
         }
@@ -130,10 +131,8 @@ fun StructuresScreen(
             modifier = Modifier.padding(horizontal = 32.dp),
         ) {
             items(uiState.list) { structure ->
-                TypeCard(
-                    title = structure.name,
-                    totalFields = structure.totalFields,
-                    id = structure.id,
+                Card(
+                    structure = structure,
                     onClick = {
                         navigate(FormsDestination(structure = structure))
                     }
@@ -144,36 +143,19 @@ fun StructuresScreen(
 }
 
 @Composable
-private fun TypeCard(
-    title: String,
-    totalFields: Int,
-    id: String,
+private fun Card(
+    structure: FormStructure,
     onClick: () -> Unit,
 ) {
-    val backgroundColor = remember(totalFields) {
-        when (totalFields) {
-            in 0..100 -> LightGreen
-            in 200..500 -> LightYellow
-            else -> LightRed
-        }
-    }
-
-    val textColor = remember(totalFields) {
-        when (totalFields) {
-            in 0..100 -> DarkGreen
-            in 200..500 -> DarkYellow
-            else -> DarkRed
-        }
-    }
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 6.dp)
+            .clip(RoundedCornerShape(20.dp))
             .clickable {
                 onClick()
             }
-            .background(color = backgroundColor)
-            .clip(RoundedCornerShape(20.dp))
+            .background(color = structure.getBackgroundColor())
             .padding(16.dp)
     ) {
         Column {
@@ -183,23 +165,23 @@ private fun TypeCard(
             ) {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = title,
+                    text = structure.name,
                     fontWeight = FontWeight.Bold,
-                    color = textColor
+                    color = structure.getTextColor()
                 )
                 Text(
                     modifier = Modifier.weight(0.4f),
-                    text = "$totalFields fields",
+                    text = "${structure.totalFields} fields",
                     textAlign = TextAlign.End,
                     fontSize = 14.sp,
-                    color = textColor
+                    color = structure.getTextColor()
                 )
             }
             Spacer(Modifier.height(4.dp))
             Text(
-                text = id,
+                text = structure.id,
                 fontSize = 12.sp,
-                color = textColor
+                color = structure.getTextColor()
             )
         }
     }

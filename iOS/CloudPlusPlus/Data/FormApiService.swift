@@ -19,7 +19,8 @@ extension FormApiService {
     func getStructures() -> [String] {
         return [
             readJson(name: "all-fields"),
-            readJson(name: "200-form")
+            readJson(name: "200-form"),
+            readJson(name: "10000-form")
         ]
     }
     

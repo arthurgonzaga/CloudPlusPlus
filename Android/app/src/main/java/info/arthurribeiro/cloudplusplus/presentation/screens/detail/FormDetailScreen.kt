@@ -27,10 +27,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,195 +61,202 @@ fun FormDetailScreen(
 
     val coroutineState = rememberCoroutineScope()
 
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .systemBarsPadding()
+    MaterialTheme(
+        colorScheme = lightColorScheme(
+            primary = uiState.darkColor,
+        )
     ) {
-
-        IconButton(
-            onClick = {
-                onClose()
-            }
-        ) {
-            Icon(Icons.Default.Close, contentDescription = "Close")
-        }
-
         Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = modifier
+                .fillMaxWidth()
+                .systemBarsPadding()
         ) {
-            Text(
-                uiState.title,
-                fontSize = MaterialTheme.typography.titleMedium.fontSize
-            )
-
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 42.dp),
-                progress = { currentSection.toFloat() / uiState.totalSections },
-            )
-
-            Text(
-                text = "Section $currentSection of ${uiState.totalSections}",
-                fontSize = MaterialTheme.typography.bodySmall.fontSize
-            )
-        }
-
-
-        Surface(
-            modifier = Modifier.padding(top = 24.dp),
-            shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        ) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 32.dp),
-                state = listState
-            ) {
-                item {
-                    Spacer(Modifier.height(32.dp))
+            IconButton(
+                onClick = {
+                    onClose()
                 }
-                items(
-                    items = uiState.items,
-                    key = { it.field.id },
-                ) { item ->
-                    when (item.field) {
-                        is Field.TextField, is Field.Number -> {
-                            Column(modifier = Modifier.padding(vertical = 8.dp)) {
-                                Text(text = item.field.label)
-                                OutlinedTextField(
-                                    value = item.value,
-                                    onValueChange = { newValue ->
-                                        viewModel.onDropDownSelected(
-                                            fieldId = item.field.id,
-                                            value = newValue
-                                        )
-                                    },
-                                    keyboardOptions = KeyboardOptions.Default.copy(
-                                        keyboardType = if (item.field is Field.Number) {
-                                            KeyboardType.Number
-                                        } else {
-                                            KeyboardType.Text
-                                        }
-                                    ),
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                            }
-                        }
+            ) {
+                Icon(Icons.Default.Close, contentDescription = "Close")
+            }
 
-                        is Field.Description -> {
-                            AndroidView(
-                                factory = { context ->
-                                    TextView(context).apply {
-                                        text = HtmlCompat.fromHtml(
-                                            item.field.label,
-                                            HtmlCompat.FROM_HTML_MODE_COMPACT
-                                        )
-                                        textSize = 16f
-                                    }
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 8.dp)
-                            )
-                        }
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    uiState.title,
+                    fontSize = MaterialTheme.typography.titleMedium.fontSize
+                )
 
-                        is Field.Dropdown -> {
-                            var expanded by rememberSaveable { mutableStateOf(false) }
-                            val selected = rememberSaveable(item.value) {
-                                item.field.options.find { it.value == item.value }?.label ?: ""
-                            }
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 42.dp),
+                    color = uiState.darkColor,
+                    trackColor = uiState.lightColor,
+                    progress = { currentSection.toFloat() / uiState.totalSections },
+                )
 
-                            Column(modifier = Modifier.padding(vertical = 8.dp)) {
-                                Text(text = item.field.label)
-                                Box {
+                Text(
+                    text = "Section $currentSection of ${uiState.totalSections}",
+                    fontSize = MaterialTheme.typography.bodySmall.fontSize
+                )
+            }
+
+
+            Box(
+                modifier = Modifier.padding(top = 24.dp),
+            ) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 32.dp),
+                    state = listState
+                ) {
+                    item {
+                        Spacer(Modifier.height(8.dp))
+                    }
+                    items(
+                        items = uiState.items,
+                        key = { it.field.id },
+                    ) { item ->
+                        when (item.field) {
+                            is Field.TextField, is Field.Number -> {
+                                Column(modifier = Modifier.padding(vertical = 8.dp)) {
+                                    Text(text = item.field.label)
                                     OutlinedTextField(
-                                        value = selected,
-                                        onValueChange = {},
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .clickable { expanded = true },
-                                        readOnly = true,
-                                        enabled = false,
-                                        trailingIcon = {
-                                            Icon(
-                                                Icons.Default.ArrowDropDown,
-                                                contentDescription = null
+                                        value = item.value,
+                                        onValueChange = { newValue ->
+                                            viewModel.onDropDownSelected(
+                                                fieldId = item.field.id,
+                                                value = newValue
                                             )
                                         },
-                                        colors = OutlinedTextFieldDefaults.colors().copy(
-                                            disabledTextColor = MaterialTheme.colorScheme.onSurface,
-                                            disabledIndicatorColor = MaterialTheme.colorScheme.outline,
-                                            disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                            disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                            disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                            disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
+                                        keyboardOptions = KeyboardOptions.Default.copy(
+                                            keyboardType = if (item.field is Field.Number) {
+                                                KeyboardType.Number
+                                            } else {
+                                                KeyboardType.Text
+                                            }
+                                        ),
+                                        modifier = Modifier.fillMaxWidth()
                                     )
-                                    DropdownMenu(
-                                        expanded = expanded,
-                                        onDismissRequest = { expanded = false }
-                                    ) {
-                                        item.field.options.forEach { option ->
-                                            DropdownMenuItem(
-                                                text = { Text(option.label) },
-                                                onClick = {
-                                                    viewModel.onValueChange(
-                                                        item.field.id,
-                                                        option.value
-                                                    )
-                                                    expanded = false
-                                                }
+                                }
+                            }
+
+                            is Field.Description -> {
+                                AndroidView(
+                                    factory = { context ->
+                                        TextView(context).apply {
+                                            text = HtmlCompat.fromHtml(
+                                                item.field.label,
+                                                HtmlCompat.FROM_HTML_MODE_COMPACT
                                             )
+                                            textSize = 16f
+                                        }
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp)
+                                )
+                            }
+
+                            is Field.Dropdown -> {
+                                var expanded by rememberSaveable { mutableStateOf(false) }
+                                val selected = rememberSaveable(item.value) {
+                                    item.field.options.find { it.value == item.value }?.label ?: ""
+                                }
+
+                                Column(modifier = Modifier.padding(vertical = 8.dp)) {
+                                    Text(text = item.field.label)
+                                    Box {
+                                        OutlinedTextField(
+                                            value = selected,
+                                            onValueChange = {},
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .clickable { expanded = true },
+                                            readOnly = true,
+                                            enabled = false,
+                                            trailingIcon = {
+                                                Icon(
+                                                    Icons.Default.ArrowDropDown,
+                                                    contentDescription = null
+                                                )
+                                            },
+                                            colors = OutlinedTextFieldDefaults.colors().copy(
+                                                disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                                disabledIndicatorColor = MaterialTheme.colorScheme.outline,
+                                                disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                        )
+                                        DropdownMenu(
+                                            expanded = expanded,
+                                            onDismissRequest = { expanded = false }
+                                        ) {
+                                            item.field.options.forEach { option ->
+                                                DropdownMenuItem(
+                                                    text = { Text(option.label) },
+                                                    onClick = {
+                                                        viewModel.onValueChange(
+                                                            item.field.id,
+                                                            option.value
+                                                        )
+                                                        expanded = false
+                                                    }
+                                                )
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                }
 
-                item {
-                    Spacer(Modifier.height(32.dp))
-                    Row {
+                    item {
+                        Spacer(Modifier.height(32.dp))
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            if (currentSection > 1 && currentSection < uiState.totalSections) {
+                                OutlinedButton(
+                                    modifier = Modifier.weight(1f),
+                                    onClick = {
+                                        coroutineState.launch { listState.scrollToItem(0) }
+                                        viewModel.onPreviousSectionClick()
+                                    }
+                                ) {
+                                    Text(
+                                        text = "Back",
+                                    )
+                                }
+                            }
 
-                        if (currentSection > 0 && currentSection < uiState.totalSections) {
                             Button(
                                 modifier = Modifier.weight(1f),
                                 onClick = {
-                                    coroutineState.launch { listState.scrollToItem(0) }
-                                    viewModel.onPreviousSectionClick()
+                                    if (currentSection < uiState.totalSections) {
+                                        coroutineState.launch { listState.scrollToItem(0) }
+                                        viewModel.onNextSectionClick()
+                                    } else {
+                                        onClose()
+                                    }
                                 }
                             ) {
                                 Text(
-                                    text = "Back",
+                                    text = if (currentSection < uiState.totalSections) {
+                                        "Next"
+                                    } else {
+                                        "Finish"
+                                    }
                                 )
                             }
                         }
-
-                        Button(
-                            modifier = Modifier.weight(1f),
-                            onClick = {
-                                if (currentSection < uiState.totalSections) {
-                                    coroutineState.launch { listState.scrollToItem(0) }
-                                    viewModel.onNextSectionClick()
-                                } else {
-                                    onClose()
-                                }
-                            }
-                        ) {
-                            Text(
-                                text = if (currentSection < uiState.totalSections) {
-                                    "Next"
-                                } else {
-                                    "Finish"
-                                }
-                            )
-                        }
+                        Spacer(Modifier.height(32.dp))
                     }
-                    Spacer(Modifier.height(32.dp))
                 }
             }
         }

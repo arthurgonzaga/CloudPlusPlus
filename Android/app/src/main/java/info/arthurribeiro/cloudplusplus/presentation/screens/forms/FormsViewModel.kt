@@ -25,7 +25,9 @@ class FormsViewModel(
                 Log.i("FormsViewModel", "Forms: ${forms.size}")
                 _uiState.value = _uiState.value.copy(
                     forms = forms,
-                    isLoading = false
+                    isLoading = false,
+                    backgroundColor = structure.getBackgroundColor(),
+                    textColor = structure.getTextColor()
                 )
             }
             .launchIn(viewModelScope)

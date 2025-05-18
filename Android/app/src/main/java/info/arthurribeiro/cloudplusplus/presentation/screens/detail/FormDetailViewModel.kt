@@ -22,7 +22,9 @@ class FormDetailViewModel(
     private val _uiState = mutableStateOf(
         FormDetailState(
             title = structure.name,
-            currentSectionIndex = 0
+            currentSectionIndex = 0,
+            lightColor = structure.getBackgroundColor(),
+            darkColor = structure.getTextColor(),
         )
     )
     val uiState: State<FormDetailState> = _uiState

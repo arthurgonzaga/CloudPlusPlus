@@ -16,13 +16,13 @@ enum Field: Decodable {
     var id: String {
         switch self {
         case .textField(let field):
-            field.id
+            field.uuid
         case .description(let field):
-            field.id
+            field.uuid
         case .number(let field):
-            field.id
+            field.uuid
         case .dropdown(let field):
-            field.id
+            field.uuid
         }
     }
     
@@ -69,25 +69,25 @@ enum Field: Decodable {
     }
     
     struct TextField: Codable {
-        let id: String
+        let uuid: String
         let label: String
         let required: Bool
     }
 
     struct Description: Codable {
-        let id: String
+        let uuid: String
         let label: String
         let required: Bool
     }
 
     struct Number: Codable {
-        let id: String
+        let uuid: String
         let label: String
         let required: Bool
     }
 
     struct Dropdown: Codable {
-        let id: String
+        let uuid: String
         let label: String
         let required: Bool
         let options: [Option]
