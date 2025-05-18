@@ -5,9 +5,9 @@ This project shows a list of form structures, displays forms based on those stru
 ## Screenshots
 
 <p float="left">
-  <img src="screenshot1.png" width="30%" />
-  <img src="screenshot2.png" width="30%" />
-  <img src="screenshot3.png" width="30%" />
+  <img src="imgs/screenshot1.png" width="30%" />
+  <img src="imgs/screenshot2.png" width="30%" />
+  <img src="imgs/screenshot3.png" width="30%" />
 </p>
 
 ## Features
