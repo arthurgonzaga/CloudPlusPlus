@@ -39,12 +39,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import info.arthurribeiro.cloudplusplus.data.model.responses.Field
+import kotlinx.coroutines.launch
 
 @Composable
 fun FormDetailScreen(
@@ -106,6 +106,9 @@ fun FormDetailScreen(
                     .padding(horizontal = 32.dp),
                 state = listState
             ) {
+                item {
+                    Spacer(Modifier.height(32.dp))
+                }
                 items(
                     items = uiState.items,
                     key = { it.field.id },
@@ -214,6 +217,7 @@ fun FormDetailScreen(
                             Button(
                                 modifier = Modifier.weight(1f),
                                 onClick = {
+                                    coroutineState.launch { listState.scrollToItem(0) }
                                     viewModel.onPreviousSectionClick()
                                 }
                             ) {
@@ -227,6 +231,7 @@ fun FormDetailScreen(
                             modifier = Modifier.weight(1f),
                             onClick = {
                                 if (currentSection < uiState.totalSections) {
+                                    coroutineState.launch { listState.scrollToItem(0) }
                                     viewModel.onNextSectionClick()
                                 } else {
                                     onClose()

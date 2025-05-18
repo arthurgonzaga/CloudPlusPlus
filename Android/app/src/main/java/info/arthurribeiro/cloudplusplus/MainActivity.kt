@@ -23,7 +23,6 @@ import info.arthurribeiro.cloudplusplus.presentation.screens.StructuresDestinati
 import info.arthurribeiro.cloudplusplus.presentation.screens.detail.FormDetailScreen
 import info.arthurribeiro.cloudplusplus.presentation.screens.forms.FormsScreen
 import info.arthurribeiro.cloudplusplus.presentation.screens.structures.StructuresScreen
-import info.arthurribeiro.cloudplusplus.presentation.theme.CloudPlusPlusTheme
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.reflect.typeOf
@@ -37,52 +36,51 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun Content(modifier: Modifier = Modifier) {
-        CloudPlusPlusTheme {
-            val navController = rememberNavController()
+        val navController = rememberNavController()
 
-            NavHost(
-                modifier = modifier,
-                navController = navController,
-                startDestination = StructuresDestination
+        NavHost(
+            modifier = modifier,
+            navController = navController,
+            startDestination = StructuresDestination
+        ) {
+            composable<StructuresDestination> {
+                StructuresScreen(
+                    navigate = { formStructure ->
+                        navController.navigate(formStructure)
+                    }
+                )
+            }
+
+            composable<FormsDestination>(
+                typeMap = mapOf(
+                    typeOf<FormStructure>() to JsonNavType(FormStructure.serializer())
+                )
             ) {
-                composable<StructuresDestination> {
-                    StructuresScreen(
-                        navigate = { formStructure ->
-                            navController.navigate(formStructure)
-                        }
-                    )
-                }
+                val args = it.toRoute<FormsDestination>()
 
-                composable<FormsDestination>(
-                    typeMap = mapOf(
-                        typeOf<FormStructure>() to JsonNavType(FormStructure.serializer())
-                    )
-                ) {
-                    val args = it.toRoute<FormsDestination>()
+                FormsScreen(
+                    viewModel = koinViewModel { parametersOf(args.structure) },
+                    navigate = { formId ->
+                        navController.navigate(FormDetailDestination(formId, args.structure))
+                    }
+                )
+            }
 
-                    FormsScreen(
-                        viewModel = koinViewModel { parametersOf(args.structure) },
-                        navigate = { formId ->
-                            navController.navigate(FormDetailDestination(formId, args.structure))
-                        }
-                    )
-                }
+            composable<FormDetailDestination>(
+                typeMap = mapOf(
+                    typeOf<FormStructure>() to JsonNavType(FormStructure.serializer())
+                )
+            ) {
+                val args = it.toRoute<FormDetailDestination>()
 
-                composable<FormDetailDestination>(
-                    typeMap = mapOf(
-                        typeOf<FormStructure>() to JsonNavType(FormStructure.serializer())
-                    )
-                ) {
-                    val args = it.toRoute<FormDetailDestination>()
-
-                    FormDetailScreen(
-                        viewModel = koinViewModel { parametersOf(args.formId, args.structure) },
-                        onClose = {
-                            navController.popBackStack()
-                        }
-                    )
-                }
+                FormDetailScreen(
+                    viewModel = koinViewModel { parametersOf(args.formId, args.structure) },
+                    onClose = {
+                        navController.popBackStack()
+                    }
+                )
             }
         }
+
     }
 }
