@@ -18,7 +18,8 @@ This project shows a list of form structures, displays forms based on those stru
 
 - List of form structures  
 - List of forms for each structure  
-- Dynamic loading of forms with sections and fields  
+- Dynamic loading of forms with sections and fields
+- Autosave 
 
 ## How It Works
 
