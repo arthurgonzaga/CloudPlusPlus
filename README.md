@@ -38,5 +38,11 @@ This project shows a list of form structures, displays forms based on those stru
 ## Getting Started
 
 1. Clone the project  
-2. Open in your IDE (Android Studio / Xcode)  
-3. Run on a device or emulator
+2. Android:
+    - Open Android Studio
+    - Click on Open Button
+    - Make sure you select the `Android`
+    - Wait gradle sync
+3. iOS:
+    1. Open the `iOS/CloudPlusPlus.xcodeproj` with Xcode
+4. Run on a device or emulator
